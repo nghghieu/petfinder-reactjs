@@ -88,7 +88,7 @@ function Login() {
           <AppInput
             title="Nhập vào Secret-Key"
             name="apiKey"
-            placeholder="Secret-Key"
+            placeholder="Secret Key"
             onChange={onChangeSecretKey}
             value={state.secretKey}
           />
