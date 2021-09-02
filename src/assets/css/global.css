@@ -1,0 +1,19 @@
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+}
+
+input {
+  border: 2px solid #a0d7eb;
+  margin: 0;
+}
+
+input:focus {
+  border: 2px solid #197394;
+  outline: none;
+}
+
+ul,
+li {
+  list-style: none;
+}

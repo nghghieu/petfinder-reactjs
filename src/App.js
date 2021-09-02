@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import "./App.css";
+import Login from "./pages/Auth/Login/Login";
+import Home from "./pages/Home/Home";
+import { checkLogin } from "./redux/loginSlice";
 
 function App() {
+  const isLogin = useSelector((state) => state.login.isLogin);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      dispatch(checkLogin(true));
+    }
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Route path="/">{isLogin ? <Home /> : <Login />}</Route>
+    </Router>
   );
 }
 
