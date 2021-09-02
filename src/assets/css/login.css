@@ -46,7 +46,7 @@
   justify-content: center;
   position: relative;
   min-width: 200px;
-  margin-top: 40px;
+  margin-top: 30px;
   padding: 10px 15px;
   background: #4eb8dd;
   border-radius: 10px;
@@ -67,14 +67,14 @@
 }
 
 @media (max-width: 767px) {
-  .login .form-group p,
-  .login .txtError {
+  .login .form-group p {
     margin: 10px 0;
-    text-align: center;
   }
 
   .login .txtError {
-    padding: 0 15px;
+    padding: 0 10px;
+    margin: 15px 0;
+    text-align: center;
   }
   .login .box-container {
     height: 470px;
