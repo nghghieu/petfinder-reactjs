@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ReactLoading from "react-loading";
 import { useDispatch, useSelector } from "react-redux";
 
 import api from "../../api/api";
+import AppLoading from "../../components/AppLoading/AppLoading";
 
 import Card from "../../components/AppPetCard/Card";
 
@@ -16,10 +16,6 @@ export default function Home() {
     type: "dog",
     page: 1,
   });
-
-  const Example = ({ type, color }) => (
-    <ReactLoading type={type} color={color} height={"30px"} width={"30px"} />
-  );
 
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.login.access_token);
@@ -135,7 +131,7 @@ export default function Home() {
         <div className="content">
           {loading ? (
             <div className="loading-container">
-              <Example type="spin" color="black" />
+              <AppLoading type="spin" color="black" />
             </div>
           ) : (
             <div className="content-container">

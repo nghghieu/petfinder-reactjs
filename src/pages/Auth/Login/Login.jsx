@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import api from "../../../api/api";
 
 import AppInput from "../../../components/AppInput/AppInput";
-import AppLoadingBtn from "../../../components/AppLoadingBtn/AppLoadingBtn";
+import AppLoading from "../../../components/AppLoading/AppLoading";
 
 import { checkLogin, login } from "../../../redux/loginSlice";
 
@@ -20,6 +20,8 @@ function Login() {
   const dispatch = useDispatch();
 
   const fetchApi = async (apiKey, secretKey) => {
+    setState({ ...state, isLoading: true });
+    console.log(state);
     axios({
       method: "post",
       url: `${api.BASE_URL}`,
@@ -95,7 +97,9 @@ function Login() {
 
           <div className="btn" onClick={onSubmit}>
             <span>Đăng Nhập</span>
-            {state.isLoading && <AppLoadingBtn />}
+            {state.isLoading && (
+              <AppLoading type="spin" color="#fff" size={20} />
+            )}
           </div>
 
           {state.error && <span className="txtError">{state.error}</span>}
