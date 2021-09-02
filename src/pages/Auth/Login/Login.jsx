@@ -1,8 +1,7 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import api from "../../../api/api";
+import { getToken } from "../../../api/api";
 
 import AppInput from "../../../components/AppInput/AppInput";
 import AppLoading from "../../../components/AppLoading/AppLoading";
@@ -21,30 +20,19 @@ function Login() {
 
   const fetchApi = async (apiKey, secretKey) => {
     setState({ ...state, isLoading: true });
-    axios({
-      method: "post",
-      url: `${api.BASE_URL}`,
-      data: {
-        grant_type: "client_credentials",
-        client_id: apiKey,
-        client_secret: secretKey,
-      },
-    })
-      .then((res) => {
-        const { data } = res;
-        localStorage.setItem("apiKey", apiKey);
-        localStorage.setItem("secretKey", secretKey);
-        dispatch(login(data.access_token));
-        dispatch(checkLogin(true));
-        setState({ ...state, isLoading: false });
-      })
-      .catch(() =>
-        setState({
-          ...state,
-          error: "Lỗi đăng nhập.",
-          isLoading: false,
-        })
-      );
+    const data = await getToken(apiKey, secretKey);
+
+    if (!data?.error) {
+      dispatch(login(data.access_token));
+      dispatch(checkLogin(true));
+      setState({ ...state, isLoading: false });
+    } else {
+      setState({
+        ...state,
+        error: "Lỗi đăng nhập.",
+        isLoading: false,
+      });
+    }
   };
 
   const onChangeApiKey = (val) => {

@@ -1,10 +1,9 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import api from "../../api/api";
-import AppLoading from "../../components/AppLoading/AppLoading";
+import { refreshToken, getAnimals } from "../../api/api";
 
+import AppLoading from "../../components/AppLoading/AppLoading";
 import Card from "../../components/AppPetCard/Card";
 
 import { login, logout } from "../../redux/loginSlice";
@@ -53,41 +52,28 @@ export default function Home() {
     }
   };
 
+  const refreshAccessToken = async () => {
+    const res = await refreshToken();
+    if (res) {
+      dispatch(login(res?.data?.access_token));
+      setLoading(false);
+    }
+  };
+
+  const authenGetPet = async () => {
+    const res = await getAnimals(params, accessToken);
+    if (res) {
+      setLoading(false);
+      setPetList(res.animals);
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     if (!accessToken) {
-      const apiKey = localStorage.getItem("apiKey");
-      const secretKey = localStorage.getItem("secretKey");
-      axios({
-        method: "post",
-        url: `${api.BASE_URL}`,
-        data: {
-          grant_type: "client_credentials",
-          client_id: apiKey,
-          client_secret: secretKey,
-        },
-      }).then((res) => {
-        const { data } = res;
-        dispatch(login(data.access_token));
-        setLoading(false);
-      });
+      refreshAccessToken();
     } else {
-      const instance = axios.create({
-        baseURL: `${api.BASE_URL_ANIMALS}`,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      instance
-        .get("", {
-          params,
-        })
-        .then((res) => {
-          const { data } = res;
-          setLoading(false);
-          setPetList(data.animals);
-        })
-        .catch((err) => console.log(err));
+      authenGetPet();
     }
   }, [dispatch, accessToken, params]);
 
