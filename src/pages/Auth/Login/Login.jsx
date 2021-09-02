@@ -21,7 +21,6 @@ function Login() {
 
   const fetchApi = async (apiKey, secretKey) => {
     setState({ ...state, isLoading: true });
-    console.log(state);
     axios({
       method: "post",
       url: `${api.BASE_URL}`,
