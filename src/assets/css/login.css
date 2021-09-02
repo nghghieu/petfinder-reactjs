@@ -67,12 +67,15 @@
 }
 
 @media (max-width: 767px) {
-  p,
-  .txtError {
+  .login .form-group p,
+  .login .txtError {
     margin: 10px 0;
     text-align: center;
   }
 
+  .login .txtError {
+    padding: 0 15px;
+  }
   .login .box-container {
     height: 470px;
   }
